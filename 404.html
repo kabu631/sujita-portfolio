@@ -36,6 +36,7 @@
     if (!window.location.pathname.endsWith('/') && !window.location.pathname.includes('.')) {
         window.history.replaceState(null, '', window.location.pathname + '/' + window.location.search + window.location.hash);
     }
+    try { sessionStorage.setItem('sk_intro_seen', '1'); } catch(e) {}
 
     // Demo Mode XHR Interceptor for contact form
     (function() {
