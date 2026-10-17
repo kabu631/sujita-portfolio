@@ -73,6 +73,9 @@ php artisan key:generate
 # Run database migrations and seeders
 php artisan migrate --seed
 
+# Alternatively, import the complete MySQL database dump:
+# mysql -u root -p sujita_portfolio < database/sujita_portfolio.sql
+
 # Create storage symlink
 php artisan storage:link
 
