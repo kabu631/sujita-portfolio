@@ -1,5 +1,9 @@
 # Sujita Khakural — Official Model & Artist Portfolio
 
+[![Live Demo](https://img.shields.io/badge/Demo-Live%20Preview-gold?style=for-the-badge&logo=github)](https://kabu631.github.io/sujita-portfolio/)
+
+> 🌐 **Live Demo URL**: [https://kabu631.github.io/sujita-portfolio/](https://kabu631.github.io/sujita-portfolio/)
+
 A luxury, high-fashion portfolio and management web application built for model and digital creator **Sujita Khakural**, featuring editorial hero sliders, music video showcase, interactive lookbook gallery with lightbox, client testimonials, booking inquiries, and a comprehensive admin management portal.
 
 ---
