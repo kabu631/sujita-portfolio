@@ -699,7 +699,7 @@ body.is-locked {
 /* Ambient Blurred Right Layer */
 .hero__slide-blur {
     position: absolute;
-    inset: -35px;
+    inset: -45px;
     z-index: 1;
     overflow: hidden;
     pointer-events: none;
@@ -709,18 +709,17 @@ body.is-locked {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: var(--pos, center 25%);
-    filter: blur(34px) brightness(0.55) saturate(1.35);
-    transform: scale(1.18);
+    object-position: var(--pos, center 22%);
+    filter: blur(28px) brightness(0.85) saturate(1.25);
+    transform: scale(1.15);
     will-change: transform, filter;
 }
 
 .hero__slide-blur-veil {
     position: absolute;
     inset: 0;
-    background:
-        linear-gradient(90deg, rgba(11, 10, 9, 0.2) 0%, rgba(11, 10, 9, 0.45) 45%, rgba(11, 10, 9, 0.82) 100%),
-        radial-gradient(circle at 75% 45%, rgba(212, 175, 122, 0.08) 0%, transparent 60%);
+    /* Gentle translucent tint so the blurry image is visible till the very right end */
+    background: linear-gradient(90deg, rgba(11, 10, 9, 0.05) 0%, rgba(11, 10, 9, 0.2) 50%, rgba(11, 10, 9, 0.35) 100%);
 }
 
 /* Clear Left Image Portrait */
@@ -729,16 +728,16 @@ body.is-locked {
     top: 0;
     bottom: 0;
     left: 0;
-    width: 58vw;
-    max-width: 960px;
+    width: 55vw;
+    max-width: 900px;
     z-index: 2;
     overflow: hidden;
     -webkit-mask-image:
-        linear-gradient(to right, #000 0%, #000 68%, rgba(0, 0, 0, 0.45) 86%, transparent 100%),
+        linear-gradient(to right, #000 0%, #000 65%, rgba(0, 0, 0, 0.35) 84%, transparent 100%),
         linear-gradient(to bottom, #000 0%, #000 86%, rgba(0, 0, 0, 0.3) 96%, transparent 100%);
     -webkit-mask-composite: destination-in;
     mask-image:
-        linear-gradient(to right, #000 0%, #000 68%, rgba(0, 0, 0, 0.45) 86%, transparent 100%),
+        linear-gradient(to right, #000 0%, #000 65%, rgba(0, 0, 0, 0.35) 84%, transparent 100%),
         linear-gradient(to bottom, #000 0%, #000 86%, rgba(0, 0, 0, 0.3) 96%, transparent 100%);
     mask-composite: intersect;
 }
@@ -767,9 +766,8 @@ body.is-locked {
     inset: 0;
     z-index: -1;
     background:
-        linear-gradient(180deg, rgba(11, 10, 9, 0.45) 0%, rgba(11, 10, 9, 0) 22%),
-        linear-gradient(90deg, rgba(11, 10, 9, 0) 32%, rgba(11, 10, 9, 0.4) 62%, rgba(11, 10, 9, 0.78) 100%),
-        linear-gradient(0deg, var(--ink) 0%, rgba(11, 10, 9, 0.55) 20%, rgba(11, 10, 9, 0) 48%);
+        linear-gradient(180deg, rgba(11, 10, 9, 0.4) 0%, rgba(11, 10, 9, 0) 22%),
+        linear-gradient(0deg, var(--ink) 0%, rgba(11, 10, 9, 0.45) 16%, rgba(11, 10, 9, 0) 42%);
 }
 
 .hero__inner {
@@ -811,6 +809,7 @@ body.is-locked {
     line-height: 0.86;
     letter-spacing: -0.02em;
     font-size: clamp(4rem, 11.5vw, 10.5rem);
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.75));
 }
 
 .hero__line {
@@ -861,9 +860,10 @@ body.is-locked {
 .hero__subtitle {
     max-width: 470px;
     font-size: clamp(1rem, 1.3vw, 1.12rem);
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.8;
-    color: var(--cream-2);
+    color: var(--cream);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 .hero__actions {
