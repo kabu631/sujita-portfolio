@@ -1,0 +1,6 @@
+*
+!.gitignore
+!seed/
+!seed/**
+!gallery/
+!gallery/**
