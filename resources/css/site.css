@@ -597,19 +597,103 @@ body.is-locked {
     overflow: hidden;
 }
 
+/* ---------- PowerPoint Style Slide Transition ---------- */
 .hero__slide {
     position: absolute;
     inset: 0;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s;
+    transform: translate3d(100%, 0, 0);
     overflow: hidden;
+    will-change: transform;
 }
 
+/* Static Active Slide */
 .hero__slide.is-active {
     opacity: 1;
     visibility: visible;
-    z-index: 1;
+    transform: translate3d(0, 0, 0);
+    z-index: 2;
+}
+
+/* Incoming from Right (Next Slide - PowerPoint Push) */
+.hero__slide.is-active.from-right {
+    animation: ppt-slide-in-right 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    z-index: 3;
+}
+
+/* Outgoing to Left (Next Slide - PowerPoint Push) */
+.hero__slide.is-outgoing.to-left {
+    opacity: 1;
+    visibility: visible;
+    animation: ppt-slide-out-left 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    z-index: 2;
+}
+
+/* Incoming from Left (Previous Slide) */
+.hero__slide.is-active.from-left {
+    animation: ppt-slide-in-left 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    z-index: 3;
+}
+
+/* Outgoing to Right (Previous Slide) */
+.hero__slide.is-outgoing.to-right {
+    opacity: 1;
+    visibility: visible;
+    animation: ppt-slide-out-right 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    z-index: 2;
+}
+
+@keyframes ppt-slide-in-right {
+    from {
+        transform: translate3d(100%, 0, 0);
+        visibility: visible;
+        opacity: 1;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+@keyframes ppt-slide-out-left {
+    from {
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+        opacity: 1;
+    }
+    to {
+        transform: translate3d(-100%, 0, 0);
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+@keyframes ppt-slide-in-left {
+    from {
+        transform: translate3d(-100%, 0, 0);
+        visibility: visible;
+        opacity: 1;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+@keyframes ppt-slide-out-right {
+    from {
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+        opacity: 1;
+    }
+    to {
+        transform: translate3d(100%, 0, 0);
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 /* Ambient Blurred Right Layer */
@@ -856,7 +940,7 @@ body.is-locked {
 }
 
 .hero__slider-bar.is-active .hero__slider-bar-fill {
-    animation: hero-progress 2s linear forwards;
+    animation: hero-progress 3s linear forwards;
 }
 
 .hero:hover .hero__slider-bar.is-active .hero__slider-bar-fill {

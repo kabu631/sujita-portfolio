@@ -229,24 +229,39 @@ const heroSlides = computed(() => [
     },
 ]);
 
-function setHeroSlide(index) {
-    activeHeroSlide.value = (index + heroSlides.value.length) % heroSlides.value.length;
+const prevHeroSlideIndex = ref(null);
+const slideDirection = ref('next');
+let slideResetTimer = null;
+
+function setHeroSlide(index, dir = 'next') {
+    const target = (index + heroSlides.value.length) % heroSlides.value.length;
+    if (target === activeHeroSlide.value) return;
+
+    prevHeroSlideIndex.value = activeHeroSlide.value;
+    slideDirection.value = dir;
+    activeHeroSlide.value = target;
+
+    if (slideResetTimer) clearTimeout(slideResetTimer);
+    slideResetTimer = setTimeout(() => {
+        prevHeroSlideIndex.value = null;
+    }, 850);
+
     resetHeroTimer();
 }
 
 function nextHeroSlide() {
-    setHeroSlide(activeHeroSlide.value + 1);
+    setHeroSlide(activeHeroSlide.value + 1, 'next');
 }
 
 function prevHeroSlide() {
-    setHeroSlide(activeHeroSlide.value - 1);
+    setHeroSlide(activeHeroSlide.value - 1, 'prev');
 }
 
 function startHeroTimer() {
     stopHeroTimer();
     heroTimer = setInterval(() => {
         nextHeroSlide();
-    }, 2000);
+    }, 3000);
 }
 
 function stopHeroTimer() {
@@ -493,7 +508,14 @@ function handleImageError(event) {
                 v-for="(slide, index) in heroSlides"
                 :key="slide.id"
                 class="hero__slide"
-                :class="{ 'is-active': activeHeroSlide === index }"
+                :class="{
+                    'is-active': activeHeroSlide === index,
+                    'is-outgoing': prevHeroSlideIndex === index,
+                    'from-right': activeHeroSlide === index && slideDirection === 'next' && prevHeroSlideIndex !== null,
+                    'from-left': activeHeroSlide === index && slideDirection === 'prev' && prevHeroSlideIndex !== null,
+                    'to-left': prevHeroSlideIndex === index && slideDirection === 'next',
+                    'to-right': prevHeroSlideIndex === index && slideDirection === 'prev',
+                }"
             >
                 <!-- Right / Ambient Blurred Layer -->
                 <div class="hero__slide-blur" aria-hidden="true">
@@ -594,7 +616,7 @@ function handleImageError(event) {
                             type="button"
                             class="hero__slider-bar"
                             :class="{ 'is-active': activeHeroSlide === index }"
-                            @click="setHeroSlide(index)"
+                            @click="setHeroSlide(index, index >= activeHeroSlide ? 'next' : 'prev')"
                             :title="`Go to slide 0${index + 1}`"
                             :aria-label="`Slide ${index + 1}`"
                         >
