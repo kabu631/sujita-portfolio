@@ -14,9 +14,9 @@ const props = defineProps({
 });
 
 // Intro loader state
-const showLoader = ref(true);
-const isLeavingLoader = ref(false);
-const isHeroReady = ref(false);
+const showLoader = ref(false);
+const isLeavingLoader = ref(true);
+const isHeroReady = ref(true);
 
 onMounted(() => {
     // If user visited before in session, speed up or run smooth 1.6s intro
