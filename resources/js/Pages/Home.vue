@@ -364,6 +364,23 @@ function scrollToSection(id) {
 function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+function handleImageError(event) {
+    const img = event.target;
+    if (!img || img.dataset.retried) return;
+    img.dataset.retried = '1';
+    const src = img.getAttribute('src') || '';
+    if (window.location.pathname.includes('/sujita-portfolio') && !src.includes('/sujita-portfolio/')) {
+        const clean = src.replace(/^\.\//, '').replace(/^\//, '');
+        img.src = '/sujita-portfolio/' + clean;
+        return;
+    }
+    if (src.startsWith('./')) {
+        img.src = src.replace(/^\.\//, '/');
+    } else if (!src.startsWith('http') && !src.startsWith('/')) {
+        img.src = '/' + src;
+    }
+}
 </script>
 
 <template>
@@ -486,6 +503,7 @@ function scrollToTop() {
                         '--pos-m': slide.mobilePosition
                     }"
                     :loading="index === 0 ? 'eager' : 'lazy'"
+                    @error="handleImageError"
                 />
             </div>
         </div>
@@ -629,7 +647,7 @@ function scrollToTop() {
                 <div class="about__visual" v-reveal="{ from: 'left' }">
                     <div class="about__frame"></div>
                     <div class="about__photo">
-                        <img :src="settings.about_image || '/images/logo-full.jpg'" :alt="settings.site_name" />
+                        <img :src="settings.about_image || '/images/logo-full.jpg'" :alt="settings.site_name" @error="handleImageError" />
                     </div>
 
                     <div class="about__badge">
@@ -737,7 +755,7 @@ function scrollToTop() {
                 @click="openVideo(featuredVideo)"
                 style="cursor: pointer;"
             >
-                <img :src="featuredVideo.thumbnail_url || '/images/logo-full.jpg'" :alt="featuredVideo.title" class="feature__img" />
+                <img :src="featuredVideo.thumbnail_url || '/images/logo-full.jpg'" :alt="featuredVideo.title" class="feature__img" @error="handleImageError" />
                 <div class="feature__body">
                     <span class="tag">Featured Music Video</span>
                     <h3 class="feature__title">{{ featuredVideo.title }}</h3>
@@ -767,7 +785,7 @@ function scrollToTop() {
                     style="cursor: pointer;"
                 >
                     <div class="video-card__thumb">
-                        <img :src="video.thumbnail_url || '/images/logo-full.jpg'" :alt="video.title" />
+                        <img :src="video.thumbnail_url || '/images/logo-full.jpg'" :alt="video.title" @error="handleImageError" />
                         <div class="video-card__play">
                             <Icon name="play" :size="22" />
                         </div>
@@ -840,7 +858,7 @@ function scrollToTop() {
                         :style="{ '--i': index }"
                         @click="openLightbox(index)"
                     >
-                        <img :src="item.src" :alt="item.caption || 'Model portrait'" loading="lazy" />
+                        <img :src="item.src" :alt="item.caption || 'Model portrait'" loading="lazy" @error="handleImageError" />
                         <div class="masonry__overlay">
                             <span class="masonry__cat">{{ item.label }}</span>
                             <h4 v-if="item.caption" class="masonry__caption">{{ item.caption }}</h4>
@@ -1213,7 +1231,7 @@ function scrollToTop() {
             </button>
 
             <figure class="lightbox__figure">
-                <img :src="filteredGallery[activeImageIndex].src" :alt="filteredGallery[activeImageIndex].caption || 'Model portrait'" class="lightbox__img" />
+                <img :src="filteredGallery[activeImageIndex].src" :alt="filteredGallery[activeImageIndex].caption || 'Model portrait'" class="lightbox__img" @error="handleImageError" />
                 <figcaption class="lightbox__caption">
                     <span v-if="filteredGallery[activeImageIndex].caption">{{ filteredGallery[activeImageIndex].caption }}</span>
                     <span class="lightbox__count">
