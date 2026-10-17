@@ -197,8 +197,8 @@ const heroSlides = computed(() => [
         subtitle: props.settings.hero_slide_1_sub || props.settings.hero_subtitle || 'Bringing confidence, elegance and personality to every frame — from the runway to the music video set.',
         image: props.settings.hero_image || '/storage/seed/sujita-1.jpg',
         badge: 'High Fashion',
-        position: '30% 35%',
-        mobilePosition: '28% 30%',
+        position: 'center 12%',
+        mobilePosition: 'center 10%',
     },
     {
         id: 2,
@@ -206,8 +206,8 @@ const heroSlides = computed(() => [
         subtitle: props.settings.hero_slide_2_sub || 'Starring as the lead muse in chart-topping visual anthems and collaborative directorial masterworks.',
         image: props.settings.hero_slide_2_image || '/storage/seed/sujita-2.jpg',
         badge: 'Cinematic Muse',
-        position: '42% 22%',
-        mobilePosition: '48% 20%',
+        position: 'center 14%',
+        mobilePosition: 'center 10%',
     },
     {
         id: 3,
@@ -215,8 +215,8 @@ const heroSlides = computed(() => [
         subtitle: props.settings.hero_slide_3_sub || 'Grace in motion — commanding attention with haute couture presence, designer elegance, and poise.',
         image: props.settings.hero_slide_3_image || '/storage/seed/sujita-3.jpg',
         badge: 'Runway Muse',
-        position: '30% 35%',
-        mobilePosition: '28% 30%',
+        position: 'center 12%',
+        mobilePosition: 'center 10%',
     },
     {
         id: 4,
@@ -224,8 +224,8 @@ const heroSlides = computed(() => [
         subtitle: props.settings.hero_slide_4_sub || 'Based in Virginia, USA and available worldwide for international commercial campaigns and editorials.',
         image: props.settings.hero_slide_4_image || '/storage/seed/sujita-4.jpg',
         badge: 'Editorial Muse',
-        position: '38% 25%',
-        mobilePosition: '42% 25%',
+        position: 'center 15%',
+        mobilePosition: 'center 12%',
     },
 ]);
 
@@ -495,16 +495,33 @@ function handleImageError(event) {
                 class="hero__slide"
                 :class="{ 'is-active': activeHeroSlide === index }"
             >
-                <img
-                    :src="slide.image"
-                    :alt="`${settings.site_name} - Slide ${index + 1}`"
-                    :style="{
-                        '--pos': slide.position,
-                        '--pos-m': slide.mobilePosition
-                    }"
-                    :loading="index === 0 ? 'eager' : 'lazy'"
-                    @error="handleImageError"
-                />
+                <!-- Right / Ambient Blurred Layer -->
+                <div class="hero__slide-blur" aria-hidden="true">
+                    <img
+                        :src="slide.image"
+                        alt=""
+                        :style="{
+                            '--pos': slide.position,
+                            '--pos-m': slide.mobilePosition
+                        }"
+                        @error="handleImageError"
+                    />
+                    <div class="hero__slide-blur-veil"></div>
+                </div>
+
+                <!-- Left Clear Person Portrait -->
+                <div class="hero__slide-clear">
+                    <img
+                        :src="slide.image"
+                        :alt="`${settings.site_name} - Slide ${index + 1}`"
+                        :style="{
+                            '--pos': slide.position,
+                            '--pos-m': slide.mobilePosition
+                        }"
+                        :loading="index === 0 ? 'eager' : 'lazy'"
+                        @error="handleImageError"
+                    />
+                </div>
             </div>
         </div>
 

@@ -602,7 +602,7 @@ body.is-locked {
     inset: 0;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s;
     overflow: hidden;
 }
 
@@ -612,24 +612,69 @@ body.is-locked {
     z-index: 1;
 }
 
-.hero__slide img,
-.hero__media img {
+/* Ambient Blurred Right Layer */
+.hero__slide-blur {
+    position: absolute;
+    inset: -35px;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.hero__slide-blur img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: var(--pos, 30% 35%);
-    transform: scale(1.08);
+    object-position: var(--pos, center 25%);
+    filter: blur(34px) brightness(0.55) saturate(1.35);
+    transform: scale(1.18);
+    will-change: transform, filter;
+}
+
+.hero__slide-blur-veil {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(11, 10, 9, 0.2) 0%, rgba(11, 10, 9, 0.45) 45%, rgba(11, 10, 9, 0.82) 100%),
+        radial-gradient(circle at 75% 45%, rgba(212, 175, 122, 0.08) 0%, transparent 60%);
+}
+
+/* Clear Left Image Portrait */
+.hero__slide-clear {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 58vw;
+    max-width: 960px;
+    z-index: 2;
+    overflow: hidden;
+    -webkit-mask-image:
+        linear-gradient(to right, #000 0%, #000 68%, rgba(0, 0, 0, 0.45) 86%, transparent 100%),
+        linear-gradient(to bottom, #000 0%, #000 86%, rgba(0, 0, 0, 0.3) 96%, transparent 100%);
+    -webkit-mask-composite: destination-in;
+    mask-image:
+        linear-gradient(to right, #000 0%, #000 68%, rgba(0, 0, 0, 0.45) 86%, transparent 100%),
+        linear-gradient(to bottom, #000 0%, #000 86%, rgba(0, 0, 0, 0.3) 96%, transparent 100%);
+    mask-composite: intersect;
+}
+
+.hero__slide-clear img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--pos, center 12%);
+    transform: scale(1.05);
     animation: kenburns 22s ease-out forwards;
     will-change: transform;
 }
 
-.hero.is-ready .hero__slide.is-active img,
-.hero.is-ready .hero__media img {
+.hero.is-ready .hero__slide.is-active .hero__slide-clear img {
     animation-play-state: running;
 }
 
 @keyframes kenburns {
-    from { transform: scale(1.08) translate3d(0, 0, 0); }
+    from { transform: scale(1.06) translate3d(0, 0, 0); }
     to { transform: scale(1.01) translate3d(-1%, -1%, 0); }
 }
 
@@ -638,9 +683,9 @@ body.is-locked {
     inset: 0;
     z-index: -1;
     background:
-        linear-gradient(180deg, rgba(11, 10, 9, 0.55) 0%, rgba(11, 10, 9, 0) 22%),
-        linear-gradient(90deg, rgba(11, 10, 9, 0) 30%, rgba(11, 10, 9, 0.55) 62%, rgba(11, 10, 9, 0.85) 100%),
-        linear-gradient(0deg, var(--ink) 0%, rgba(11, 10, 9, 0.6) 22%, rgba(11, 10, 9, 0) 50%);
+        linear-gradient(180deg, rgba(11, 10, 9, 0.45) 0%, rgba(11, 10, 9, 0) 22%),
+        linear-gradient(90deg, rgba(11, 10, 9, 0) 32%, rgba(11, 10, 9, 0.4) 62%, rgba(11, 10, 9, 0.78) 100%),
+        linear-gradient(0deg, var(--ink) 0%, rgba(11, 10, 9, 0.55) 20%, rgba(11, 10, 9, 0) 48%);
 }
 
 .hero__inner {
@@ -945,9 +990,21 @@ body.is-locked {
             linear-gradient(0deg, var(--ink) 6%, rgba(11, 10, 9, 0.88) 45%, rgba(11, 10, 9, 0.15) 75%);
     }
 
-    .hero__slide img,
-    .hero__media img {
-        object-position: var(--pos-m, 28% 30%);
+    .hero__slide-clear {
+        width: 100%;
+        max-width: none;
+        -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 62%, rgba(0, 0, 0, 0.3) 85%, transparent 100%);
+        mask-image: linear-gradient(180deg, #000 0%, #000 62%, rgba(0, 0, 0, 0.3) 85%, transparent 100%);
+        -webkit-mask-composite: source-over;
+        mask-composite: add;
+    }
+
+    .hero__slide-clear img {
+        object-position: var(--pos-m, center 10%);
+    }
+
+    .hero__slide-blur img {
+        object-position: var(--pos-m, center 20%);
     }
 
     .hero__scroll {
