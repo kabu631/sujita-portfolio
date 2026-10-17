@@ -184,125 +184,11 @@ function stopTestimonialAutoplay() {
     }
 }
 
-// 4 Hero Sliders
-const activeHeroSlide = ref(0);
-let heroTimer = null;
-const heroTouchStartX = ref(0);
-const heroTouchEndX = ref(0);
-
-const heroSlides = computed(() => [
-    {
-        id: 1,
-        eyebrow: props.settings.hero_slide_1_eyebrow || props.settings.hero_eyebrow || 'Model — Music Videos — Editorial',
-        subtitle: props.settings.hero_slide_1_sub || props.settings.hero_subtitle || 'Bringing confidence, elegance and personality to every frame — from the runway to the music video set.',
-        image: props.settings.hero_image || '/storage/seed/sujita-1.jpg',
-        badge: 'High Fashion',
-        position: 'center 12%',
-        mobilePosition: 'center 10%',
-    },
-    {
-        id: 2,
-        eyebrow: props.settings.hero_slide_2_eyebrow || 'Lead Actress — Cinematic Music Videos',
-        subtitle: props.settings.hero_slide_2_sub || 'Starring as the lead muse in chart-topping visual anthems and collaborative directorial masterworks.',
-        image: props.settings.hero_slide_2_image || '/storage/seed/sujita-2.jpg',
-        badge: 'Cinematic Muse',
-        position: 'center 14%',
-        mobilePosition: 'center 10%',
-    },
-    {
-        id: 3,
-        eyebrow: props.settings.hero_slide_3_eyebrow || 'High Fashion — Runway & Lookbook',
-        subtitle: props.settings.hero_slide_3_sub || 'Grace in motion — commanding attention with haute couture presence, designer elegance, and poise.',
-        image: props.settings.hero_slide_3_image || '/storage/seed/sujita-3.jpg',
-        badge: 'Runway Muse',
-        position: 'center 12%',
-        mobilePosition: 'center 10%',
-    },
-    {
-        id: 4,
-        eyebrow: props.settings.hero_slide_4_eyebrow || 'Digital Creator — Global Campaigns',
-        subtitle: props.settings.hero_slide_4_sub || 'Based in Virginia, USA and available worldwide for international commercial campaigns and editorials.',
-        image: props.settings.hero_slide_4_image || '/storage/seed/sujita-4.jpg',
-        badge: 'Editorial Muse',
-        position: 'center 15%',
-        mobilePosition: 'center 12%',
-    },
-]);
-
-const prevHeroSlideIndex = ref(null);
-const slideDirection = ref('next');
-let slideResetTimer = null;
-
-function setHeroSlide(index, dir = 'next') {
-    const target = (index + heroSlides.value.length) % heroSlides.value.length;
-    if (target === activeHeroSlide.value) return;
-
-    prevHeroSlideIndex.value = activeHeroSlide.value;
-    slideDirection.value = dir;
-    activeHeroSlide.value = target;
-
-    if (slideResetTimer) clearTimeout(slideResetTimer);
-    slideResetTimer = setTimeout(() => {
-        prevHeroSlideIndex.value = null;
-    }, 850);
-
-    resetHeroTimer();
-}
-
-function nextHeroSlide() {
-    setHeroSlide(activeHeroSlide.value + 1, 'next');
-}
-
-function prevHeroSlide() {
-    setHeroSlide(activeHeroSlide.value - 1, 'prev');
-}
-
-function startHeroTimer() {
-    stopHeroTimer();
-    heroTimer = setInterval(() => {
-        nextHeroSlide();
-    }, 3000);
-}
-
-function stopHeroTimer() {
-    if (heroTimer) {
-        clearInterval(heroTimer);
-        heroTimer = null;
-    }
-}
-
-function resetHeroTimer() {
-    stopHeroTimer();
-    startHeroTimer();
-}
-
-function handleHeroTouchStart(e) {
-    if (e.touches && e.touches[0]) {
-        heroTouchStartX.value = e.touches[0].clientX;
-    }
-}
-
-function handleHeroTouchEnd(e) {
-    if (e.changedTouches && e.changedTouches[0]) {
-        heroTouchEndX.value = e.changedTouches[0].clientX;
-        const diff = heroTouchStartX.value - heroTouchEndX.value;
-        if (Math.abs(diff) > 40) {
-            if (diff > 0) {
-                nextHeroSlide();
-            } else {
-                prevHeroSlide();
-            }
-        }
-    }
-}
-
 onMounted(() => {
     startTestimonialAutoplay();
-    startHeroTimer();
 });
 onUnmounted(() => {
     stopTestimonialAutoplay();
-    stopHeroTimer();
 });
 
 // Featured Video vs Regular Videos
@@ -492,70 +378,28 @@ function handleImageError(event) {
         </div>
     </Transition>
 
-    <!-- HERO SECTION (4-Slide Editorial Slider) -->
+    <!-- HERO SECTION -->
     <section
         id="hero"
         class="hero"
         :class="{ 'is-ready': isHeroReady }"
-        @mouseenter="stopHeroTimer"
-        @mouseleave="startHeroTimer"
-        @touchstart="handleHeroTouchStart"
-        @touchend="handleHeroTouchEnd"
     >
-        <!-- 4 Background Slide Layers -->
-        <div class="hero__slider">
-            <div
-                v-for="(slide, index) in heroSlides"
-                :key="slide.id"
-                class="hero__slide"
-                :class="{
-                    'is-active': activeHeroSlide === index,
-                    'is-outgoing': prevHeroSlideIndex === index,
-                    'from-right': activeHeroSlide === index && slideDirection === 'next' && prevHeroSlideIndex !== null,
-                    'from-left': activeHeroSlide === index && slideDirection === 'prev' && prevHeroSlideIndex !== null,
-                    'to-left': prevHeroSlideIndex === index && slideDirection === 'next',
-                    'to-right': prevHeroSlideIndex === index && slideDirection === 'prev',
-                }"
-            >
-                <!-- Right / Ambient Blurred Layer -->
-                <div class="hero__slide-blur" aria-hidden="true">
-                    <img
-                        :src="slide.image"
-                        alt=""
-                        :style="{
-                            '--pos': slide.position,
-                            '--pos-m': slide.mobilePosition
-                        }"
-                        @error="handleImageError"
-                    />
-                    <div class="hero__slide-blur-veil"></div>
-                </div>
-
-                <!-- Left Clear Person Portrait -->
-                <div class="hero__slide-clear">
-                    <img
-                        :src="slide.image"
-                        :alt="`${settings.site_name} - Slide ${index + 1}`"
-                        :style="{
-                            '--pos': slide.position,
-                            '--pos-m': slide.mobilePosition
-                        }"
-                        :loading="index === 0 ? 'eager' : 'lazy'"
-                        @error="handleImageError"
-                    />
-                </div>
-            </div>
+        <div class="hero__media">
+            <img
+                :src="settings.hero_image || '/storage/seed/sujita-1.jpg'"
+                :alt="settings.site_name"
+                loading="eager"
+                @error="handleImageError"
+            />
         </div>
 
         <div class="hero__veil"></div>
 
         <div class="container hero__inner">
             <div class="hero__content">
-                <Transition name="fade" mode="out-in">
-                    <span :key="`eyebrow-${activeHeroSlide}`" class="hero__eyebrow">
-                        {{ heroSlides[activeHeroSlide].eyebrow }}
-                    </span>
-                </Transition>
+                <span class="hero__eyebrow">
+                    {{ settings.hero_eyebrow || 'Model — Music Videos — Editorial' }}
+                </span>
 
                 <h1 class="hero__title">
                     <span class="hero__line">
@@ -576,11 +420,9 @@ function handleImageError(event) {
                     </span>
                 </h1>
 
-                <Transition name="fade" mode="out-in">
-                    <p :key="`sub-${activeHeroSlide}`" class="hero__subtitle hero__fade" style="--d: 850ms;">
-                        {{ heroSlides[activeHeroSlide].subtitle }}
-                    </p>
-                </Transition>
+                <p class="hero__subtitle hero__fade" style="--d: 850ms;">
+                    {{ settings.hero_subtitle || 'Bringing confidence, elegance and personality to every frame — from the runway to the music video set.' }}
+                </p>
 
                 <div class="hero__actions hero__fade" style="--d: 1050ms;">
                     <a href="#booking" class="btn btn--gold" @click.prevent="scrollToSection('booking')">
@@ -599,51 +441,6 @@ function handleImageError(event) {
                     <a href="#works" class="btn btn--ghost" @click.prevent="scrollToSection('works')">
                         <span>View Reel</span>
                     </a>
-                </div>
-
-                <!-- 4 Hero Slider Indicators & Controls -->
-                <div class="hero__slider-controls hero__fade" style="--d: 1150ms;">
-                    <div class="hero__slider-meta">
-                        <span class="hero__slider-cur">0{{ activeHeroSlide + 1 }}</span>
-                        <span class="hero__slider-divider">/</span>
-                        <span class="hero__slider-total">04</span>
-                    </div>
-
-                    <div class="hero__slider-bars">
-                        <button
-                            v-for="(slide, index) in heroSlides"
-                            :key="`bar-${slide.id}`"
-                            type="button"
-                            class="hero__slider-bar"
-                            :class="{ 'is-active': activeHeroSlide === index }"
-                            @click="setHeroSlide(index, index >= activeHeroSlide ? 'next' : 'prev')"
-                            :title="`Go to slide 0${index + 1}`"
-                            :aria-label="`Slide ${index + 1}`"
-                        >
-                            <span class="hero__slider-bar-fill"></span>
-                        </button>
-                    </div>
-
-                    <div class="hero__slider-arrows">
-                        <button
-                            type="button"
-                            class="hero__slider-arrow"
-                            @click="prevHeroSlide"
-                            aria-label="Previous slide"
-                            title="Previous slide"
-                        >
-                            <Icon name="arrow-left" :size="16" />
-                        </button>
-                        <button
-                            type="button"
-                            class="hero__slider-arrow"
-                            @click="nextHeroSlide"
-                            aria-label="Next slide"
-                            title="Next slide"
-                        >
-                            <Icon name="arrow-right" :size="16" />
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

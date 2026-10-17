@@ -589,175 +589,29 @@ body.is-locked {
     isolation: isolate;
 }
 
-.hero__media,
-.hero__slider {
+.hero__media {
     position: absolute;
     inset: 0;
     z-index: -2;
     overflow: hidden;
 }
 
-/* ---------- PowerPoint Style Slide Transition ---------- */
-.hero__slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: translate3d(100%, 0, 0);
-    overflow: hidden;
-    will-change: transform;
-}
-
-/* Static Active Slide */
-.hero__slide.is-active {
-    opacity: 1;
-    visibility: visible;
-    transform: translate3d(0, 0, 0);
-    z-index: 2;
-}
-
-/* Incoming from Right (Next Slide - PowerPoint Push) */
-.hero__slide.is-active.from-right {
-    animation: ppt-slide-in-right 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    z-index: 3;
-}
-
-/* Outgoing to Left (Next Slide - PowerPoint Push) */
-.hero__slide.is-outgoing.to-left {
-    opacity: 1;
-    visibility: visible;
-    animation: ppt-slide-out-left 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    z-index: 2;
-}
-
-/* Incoming from Left (Previous Slide) */
-.hero__slide.is-active.from-left {
-    animation: ppt-slide-in-left 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    z-index: 3;
-}
-
-/* Outgoing to Right (Previous Slide) */
-.hero__slide.is-outgoing.to-right {
-    opacity: 1;
-    visibility: visible;
-    animation: ppt-slide-out-right 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    z-index: 2;
-}
-
-@keyframes ppt-slide-in-right {
-    from {
-        transform: translate3d(100%, 0, 0);
-        visibility: visible;
-        opacity: 1;
-    }
-    to {
-        transform: translate3d(0, 0, 0);
-        visibility: visible;
-        opacity: 1;
-    }
-}
-
-@keyframes ppt-slide-out-left {
-    from {
-        transform: translate3d(0, 0, 0);
-        visibility: visible;
-        opacity: 1;
-    }
-    to {
-        transform: translate3d(-100%, 0, 0);
-        visibility: visible;
-        opacity: 1;
-    }
-}
-
-@keyframes ppt-slide-in-left {
-    from {
-        transform: translate3d(-100%, 0, 0);
-        visibility: visible;
-        opacity: 1;
-    }
-    to {
-        transform: translate3d(0, 0, 0);
-        visibility: visible;
-        opacity: 1;
-    }
-}
-
-@keyframes ppt-slide-out-right {
-    from {
-        transform: translate3d(0, 0, 0);
-        visibility: visible;
-        opacity: 1;
-    }
-    to {
-        transform: translate3d(100%, 0, 0);
-        visibility: visible;
-        opacity: 1;
-    }
-}
-
-/* Ambient Blurred Right Layer */
-.hero__slide-blur {
-    position: absolute;
-    inset: -45px;
-    z-index: 1;
-    overflow: hidden;
-    pointer-events: none;
-}
-
-.hero__slide-blur img {
+.hero__media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: var(--pos, center 22%);
-    filter: blur(28px) brightness(0.85) saturate(1.25);
-    transform: scale(1.15);
-    will-change: transform, filter;
-}
-
-.hero__slide-blur-veil {
-    position: absolute;
-    inset: 0;
-    /* Gentle translucent tint so the blurry image is visible till the very right end */
-    background: linear-gradient(90deg, rgba(11, 10, 9, 0.05) 0%, rgba(11, 10, 9, 0.2) 50%, rgba(11, 10, 9, 0.35) 100%);
-}
-
-/* Clear Left Image Portrait */
-.hero__slide-clear {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 55vw;
-    max-width: 900px;
-    z-index: 2;
-    overflow: hidden;
-    -webkit-mask-image:
-        linear-gradient(to right, #000 0%, #000 65%, rgba(0, 0, 0, 0.35) 84%, transparent 100%),
-        linear-gradient(to bottom, #000 0%, #000 86%, rgba(0, 0, 0, 0.3) 96%, transparent 100%);
-    -webkit-mask-composite: destination-in;
-    mask-image:
-        linear-gradient(to right, #000 0%, #000 65%, rgba(0, 0, 0, 0.35) 84%, transparent 100%),
-        linear-gradient(to bottom, #000 0%, #000 86%, rgba(0, 0, 0, 0.3) 96%, transparent 100%);
-    mask-composite: intersect;
-}
-
-.hero__slide-clear img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: var(--pos, center 12%);
-    transform: scale(1.05);
+    object-position: var(--pos, 30% 35%);
+    transform: scale(1.08);
     animation: kenburns 22s ease-out forwards;
     will-change: transform;
 }
 
-.hero.is-ready .hero__slide.is-active .hero__slide-clear img {
+.hero.is-ready .hero__media img {
     animation-play-state: running;
 }
 
 @keyframes kenburns {
-    from { transform: scale(1.06) translate3d(0, 0, 0); }
+    from { transform: scale(1.08) translate3d(0, 0, 0); }
     to { transform: scale(1.01) translate3d(-1%, -1%, 0); }
 }
 
@@ -766,8 +620,9 @@ body.is-locked {
     inset: 0;
     z-index: -1;
     background:
-        linear-gradient(180deg, rgba(11, 10, 9, 0.4) 0%, rgba(11, 10, 9, 0) 22%),
-        linear-gradient(0deg, var(--ink) 0%, rgba(11, 10, 9, 0.45) 16%, rgba(11, 10, 9, 0) 42%);
+        linear-gradient(180deg, rgba(11, 10, 9, 0.55) 0%, rgba(11, 10, 9, 0) 22%),
+        linear-gradient(0deg, var(--ink) 0%, rgba(11, 10, 9, 0.45) 16%, rgba(11, 10, 9, 0) 42%),
+        linear-gradient(90deg, rgba(11, 10, 9, 0.45) 0%, rgba(11, 10, 9, 0.1) 42%, rgba(11, 10, 9, 0.65) 100%);
 }
 
 .hero__inner {
@@ -873,112 +728,7 @@ body.is-locked {
     margin-top: 0.4rem;
 }
 
-/* ---------- Hero Slider Controls ---------- */
-.hero__slider-controls {
-    display: flex;
-    align-items: center;
-    gap: 1.6rem;
-    margin-top: 1.4rem;
-    z-index: 5;
-    flex-wrap: wrap;
-}
 
-.hero__slider-meta {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.35rem;
-    font-family: var(--serif);
-    font-size: 1.35rem;
-    line-height: 1;
-}
-
-.hero__slider-cur {
-    color: var(--gold-light);
-    font-weight: 500;
-}
-
-.hero__slider-divider {
-    font-size: 0.85rem;
-    color: var(--muted);
-    opacity: 0.55;
-}
-
-.hero__slider-total {
-    font-size: 0.9rem;
-    color: var(--muted);
-}
-
-.hero__slider-bars {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-}
-
-.hero__slider-bar {
-    width: 44px;
-    height: 3px;
-    border-radius: 2px;
-    background: rgba(212, 175, 122, 0.24);
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: background-color 0.4s, width 0.45s var(--ease-out);
-    border: none;
-    padding: 0;
-}
-
-.hero__slider-bar.is-active {
-    width: 66px;
-    background: rgba(212, 175, 122, 0.35);
-}
-
-.hero__slider-bar-fill {
-    display: block;
-    height: 100%;
-    width: 0%;
-    background: var(--gold-gradient);
-}
-
-.hero__slider-bar.is-active .hero__slider-bar-fill {
-    animation: hero-progress 3s linear forwards;
-}
-
-.hero:hover .hero__slider-bar.is-active .hero__slider-bar-fill {
-    animation-play-state: paused;
-}
-
-@keyframes hero-progress {
-    from { width: 0%; }
-    to { width: 100%; }
-}
-
-.hero__slider-arrows {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.hero__slider-arrow {
-    width: 38px;
-    height: 38px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    border: 1px solid var(--line-strong);
-    background: rgba(17, 16, 14, 0.65);
-    backdrop-filter: blur(10px);
-    color: var(--cream-2);
-    transition: all 0.35s var(--ease-out);
-    cursor: pointer;
-}
-
-.hero__slider-arrow:hover {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: var(--ink);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 22px rgba(212, 175, 122, 0.35);
-}
 
 .hero__aside {
     position: absolute;
@@ -1074,21 +824,8 @@ body.is-locked {
             linear-gradient(0deg, var(--ink) 6%, rgba(11, 10, 9, 0.88) 45%, rgba(11, 10, 9, 0.15) 75%);
     }
 
-    .hero__slide-clear {
-        width: 100%;
-        max-width: none;
-        -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 62%, rgba(0, 0, 0, 0.3) 85%, transparent 100%);
-        mask-image: linear-gradient(180deg, #000 0%, #000 62%, rgba(0, 0, 0, 0.3) 85%, transparent 100%);
-        -webkit-mask-composite: source-over;
-        mask-composite: add;
-    }
-
-    .hero__slide-clear img {
-        object-position: var(--pos-m, center 10%);
-    }
-
-    .hero__slide-blur img {
-        object-position: var(--pos-m, center 20%);
+    .hero__media img {
+        object-position: var(--pos-m, 28% 30%);
     }
 
     .hero__scroll {
@@ -1137,33 +874,7 @@ body.is-locked {
         padding-block: 0.95rem;
     }
 
-    .hero__slider-controls {
-        gap: 0.8rem;
-        margin-top: 1rem;
-        justify-content: space-between;
-        width: 100%;
-    }
 
-    .hero__slider-meta {
-        font-size: 1.15rem;
-    }
-
-    .hero__slider-bars {
-        gap: 0.4rem;
-    }
-
-    .hero__slider-bar {
-        width: 24px;
-    }
-
-    .hero__slider-bar.is-active {
-        width: 42px;
-    }
-
-    .hero__slider-arrow {
-        width: 34px;
-        height: 34px;
-    }
 }
 
 /* ---------- Marquee ---------- */
